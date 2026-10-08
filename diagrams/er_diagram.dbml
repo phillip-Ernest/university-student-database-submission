@@ -3,6 +3,14 @@ Table departments {
   department_name varchar(100) [not null, unique]
 }
 
+Table academic_terms {
+  term_id int [pk, increment]
+  semester varchar(30) [not null]
+  academic_year int [not null]
+  start_date date
+  end_date date
+}
+
 Table programs {
   program_id int [pk, increment]
   department_id int [not null]
@@ -50,8 +58,7 @@ Table course_offerings {
   offering_id int [pk, increment]
   course_id int [not null]
   instructor_id int [not null]
-  semester varchar(30) [not null]
-  academic_year int [not null]
+  term_id int [not null]
 }
 
 Table enrollments {
@@ -82,6 +89,7 @@ Ref: course_prerequisites.course_id > courses.course_id
 Ref: course_prerequisites.prerequisite_course_id > courses.course_id
 Ref: course_offerings.course_id > courses.course_id
 Ref: course_offerings.instructor_id > instructors.instructor_id
+Ref: course_offerings.term_id > academic_terms.term_id
 Ref: enrollments.student_id > students.student_id
 Ref: enrollments.offering_id > course_offerings.offering_id
 Ref: grades.enrollment_id - enrollments.enrollment_id
